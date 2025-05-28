@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "DictionaryCreator",
+	"Description": "JSON dictionary creator",
+	"Category": "Other",
+	"CreatedBy": "Agnieszka Konopka",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "DictionaryCreator",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}
