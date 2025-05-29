@@ -12,4 +12,20 @@ public:
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
+	void AddHeaderText(TSharedRef<SGridPanel> GridPanel);
+	void AddDataRow(TSharedRef<SGridPanel> GridPanel, uint32 Row);
+	void AddElementButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel);
+	void AddSaveButton(TSharedRef<SVerticalBox> VerticalBox);
+	void AddSection(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel, const FString& LabelText);
+
+	FReply AddElementButton(TSharedRef<SGridPanel> GridPanel, uint32 Row);
+	FReply OnSaveButtonClicked();
+
+	
+	void UpdateDataArrayKey(int32 Index, const FText& NewKey);
+	void UpdateDataArrayValue(int32 Index, const FText& NewValue);
+
+private:
+	
+	TArray<TPair<FString, FString>> DataArray;
 };

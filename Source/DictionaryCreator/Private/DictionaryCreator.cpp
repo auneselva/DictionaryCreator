@@ -42,7 +42,7 @@ void FDictionaryCreatorModule::RegisterMenu()
 		Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Plugins");
 	}
 	
-	FToolMenuSection& SectionMenu = Menu->FindOrAddSection("File Tools");
+	FToolMenuSection& SectionMenu = Menu->FindOrAddSection("FileTools", FText::FromString("File Tools"));
 		SectionMenu.AddMenuEntry(
 			DictionaryCreatorTabName,
 			LOCTEXT("AddMenu_DictionaryCreator", "Dictionary Creator"),
@@ -52,36 +52,6 @@ void FDictionaryCreatorModule::RegisterMenu()
 			{
 				FGlobalTabmanager::Get()->TryInvokeTab(DictionaryCreatorTabName);
 			}));
-	
-	// {
-	//
-	//
-	// {
-	// 	UToolMenu* ProjectToolsSubMenu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Plugins");
-	// 	if (!ProjectToolsSubMenu)
-	// 	{
-	// 		ProjectToolsSubMenu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Plugins");
-	// 		FToolMenuSection& Section = ProjectToolsSubMenu->FindOrAddSection("Plugins");
-	// 		FToolMenuEntry& Entry = Section.AddSubMenu(
-	// 		"Plugins",
-	// 		LOCTEXT("AddMenu_Plugins", "Plugins"),
-	// 		LOCTEXT("AddMenu_PluginsToolTip", "Plugins"),
-	// 		FNewToolMenuChoice()
-	// 		);
-	// 		Entry.InsertPosition = FToolMenuInsert("Help", EToolMenuInsertType::After);
-	// 	}
-	// 	ProjectToolsSubMenu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Plugins");
-	// 	FToolMenuSection& SectionMenu = ProjectToolsSubMenu->AddSection("File Tools", FText::FromString("File Tools"));
-	// 	SectionMenu.AddMenuEntry(
-	// 		DictionaryCreatorTabName,
-	// 		LOCTEXT("AddMenu_DictionaryCreator", "Dictionary Creator"),
-	// 		FText::FromString("Dictionary Creator"),
-	// 		FSlateIcon(),
-	// 		FExecuteAction::CreateLambda([]()
-	// 		{
-	// 			FGlobalTabmanager::Get()->TryInvokeTab(DictionaryCreatorTabName);
-	// 		}));
-	// }
 }
 
 TSharedRef<SDockTab> FDictionaryCreatorModule::SpawnMainTab(const FSpawnTabArgs& Args)
