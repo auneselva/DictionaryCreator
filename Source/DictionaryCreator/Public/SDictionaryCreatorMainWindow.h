@@ -18,7 +18,8 @@ public:
 	void AddSaveButton(TSharedRef<SVerticalBox> VerticalBox);
 	void AddSection(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel, const FString& LabelText);
 
-	FReply AddElementButton(TSharedRef<SGridPanel> GridPanel, uint32 Row);
+	FReply AddNewData(TSharedRef<SGridPanel> GridPanel);
+	FReply RemoveData(uint32 Row);
 	FReply OnSaveButtonClicked();
 
 	
