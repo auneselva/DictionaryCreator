@@ -7,6 +7,9 @@
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
+
+const FString SDictionaryCreatorMainWindow::MainJSONObjectName = TEXT("DictionaryJsonObject");
+
 void SDictionaryCreatorMainWindow::Construct(const FArguments& InArgs)
 {
 	TSharedRef<SVerticalBox> VerticalBoxMain = SNew(SVerticalBox);
@@ -14,9 +17,8 @@ void SDictionaryCreatorMainWindow::Construct(const FArguments& InArgs)
 	AddHeaderText(GridPanel);
 	for (int i = -1; i < DataArray.Num(); i++)
 		AddDataRow(GridPanel, i + 1);
-	AddElementButton(VerticalBoxMain, GridPanel);
-
 	AddSection(VerticalBoxMain, GridPanel, TEXT("Data to save:"));
+	AddElementButton(VerticalBoxMain, GridPanel);
 	AddSaveButton(VerticalBoxMain);
 	
 	ChildSlot
@@ -120,7 +122,7 @@ void SDictionaryCreatorMainWindow::AddSection(TSharedRef<SVerticalBox> VerticalB
 
 FReply SDictionaryCreatorMainWindow::OnSaveButtonClicked()
 {
-	DictionaryCreatorUtils::ExportData(DataArray);
+	DictionaryCreatorUtils::ExportData(MainJSONObjectName,DataArray);
 	return FReply::Handled();
 }
 

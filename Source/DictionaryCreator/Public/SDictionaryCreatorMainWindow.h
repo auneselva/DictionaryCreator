@@ -29,4 +29,5 @@ public:
 private:
 	
 	TArray<TPair<FString, FString>> DataArray;
+	const static FString MainJSONObjectName;
 };
