@@ -12,14 +12,15 @@ public:
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
-	void AddHeaderText(TSharedRef<SGridPanel> GridPanel);
-	void AddDataRow(TSharedRef<SGridPanel> GridPanel, uint32 Row);
-	void AddElementButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel);
-	void AddSaveButton(TSharedRef<SVerticalBox> VerticalBox);
-	void AddSection(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel, const FString& LabelText);
+	//virtual void RebuildW
+	
+	void ConstructDataRow(TSharedRef<SGridPanel> GridPanel, uint32 Row);
+	void ConstructAddNewElementButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel);
+	void ConstructSaveButton(TSharedRef<SVerticalBox> VerticalBox);
+	void ConstructSection(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel, const FString& LabelText);
 
 	FReply AddNewData(TSharedRef<SGridPanel> GridPanel);
-	FReply RemoveData(uint32 Row);
+	FReply RemoveData(int32 Row);
 	FReply OnSaveButtonClicked();
 
 	

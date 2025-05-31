@@ -13,13 +13,16 @@ const FString SDictionaryCreatorMainWindow::MainJSONObjectName = TEXT("Dictionar
 void SDictionaryCreatorMainWindow::Construct(const FArguments& InArgs)
 {
 	TSharedRef<SVerticalBox> VerticalBoxMain = SNew(SVerticalBox);
-	TSharedRef<SGridPanel> GridPanel = SNew(SGridPanel).FillColumn(0, 0.5f).FillColumn(1, 0.5f);
-	AddHeaderText(GridPanel);
-	for (int i = -1; i < DataArray.Num(); i++)
-		AddDataRow(GridPanel, i + 1);
-	AddSection(VerticalBoxMain, GridPanel, TEXT("Data to save:"));
-	AddElementButton(VerticalBoxMain, GridPanel);
-	AddSaveButton(VerticalBoxMain);
+	TSharedRef<SGridPanel> GridPanel = SNew(SGridPanel).FillColumn(0, 0.3f).FillColumn(1, 0.6f).FillColumn(2, 0.1f);
+	
+	// add one empty row if there are none yet
+	if (DataArray.IsEmpty())
+		DataArray.Emplace("","");
+	for (int i = 0; i < DataArray.Num(); i++)
+		ConstructDataRow(GridPanel, i);
+	ConstructSection(VerticalBoxMain, GridPanel, TEXT("Data to save:"));
+	ConstructAddNewElementButton(VerticalBoxMain, GridPanel);
+	ConstructSaveButton(VerticalBoxMain);
 	
 	ChildSlot
 	[
@@ -29,11 +32,7 @@ void SDictionaryCreatorMainWindow::Construct(const FArguments& InArgs)
 	
 }
 
-void SDictionaryCreatorMainWindow::AddHeaderText(TSharedRef<SGridPanel> GridPanel)
-{
-	
-}
-void SDictionaryCreatorMainWindow::AddDataRow(TSharedRef<SGridPanel> GridPanel, uint32 Row)
+void SDictionaryCreatorMainWindow::ConstructDataRow(TSharedRef<SGridPanel> GridPanel, uint32 Row)
 {
 	GridPanel->AddSlot(0, Row)
 	.Padding(3)
@@ -41,6 +40,7 @@ void SDictionaryCreatorMainWindow::AddDataRow(TSharedRef<SGridPanel> GridPanel, 
 		[
 			SNew(SEditableTextBox)
 			.HintText(FText::FromString("Key"))
+			.MinDesiredWidth(80.0f)
 			.OnTextCommitted_Lambda([this, Row](const FText& NewText, ETextCommit::Type CommitType)
 			{
 				this->UpdateDataArrayKey(Row, NewText);
@@ -52,6 +52,7 @@ void SDictionaryCreatorMainWindow::AddDataRow(TSharedRef<SGridPanel> GridPanel, 
 		[
 			SNew(SEditableTextBox)
 			.HintText(FText::FromString("Value"))
+			.MinDesiredWidth(200.0f)
 			.OnTextCommitted_Lambda([this, Row](const FText& NewText, ETextCommit::Type CommitType)
 			{
 				this->UpdateDataArrayValue(Row, NewText);
@@ -62,11 +63,13 @@ void SDictionaryCreatorMainWindow::AddDataRow(TSharedRef<SGridPanel> GridPanel, 
 	.HAlign(HAlign_Right)
 	[
 		SNew(SBox).Padding(2.0f)
-		[
-			SNew(SButton).ButtonColorAndOpacity((FLinearColor(0.5f, 0.5f, 0.5f, 1.0f)))
-			.Text(FText::FromString("-"))
-			.HAlign(HAlign_Center)
+			.HAlign(HAlign_Left)
 			.VAlign(VAlign_Center)
+			.WidthOverride(40.0f)
+		[
+			SNew(SButton)
+			.ButtonColorAndOpacity((FLinearColor(0.6f, 0.6, 0.6f, 1.0f)))
+			.Text(FText::FromString("-"))
 			.OnClicked_Lambda([this, Row]() ->FReply
 			{
 				return this->RemoveData(Row);
@@ -74,13 +77,14 @@ void SDictionaryCreatorMainWindow::AddDataRow(TSharedRef<SGridPanel> GridPanel, 
 		]
 	];
 }
-void SDictionaryCreatorMainWindow::AddElementButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel)
+void SDictionaryCreatorMainWindow::ConstructAddNewElementButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel)
 {
 	VerticalBox->AddSlot().AutoHeight()
 	[
-		SNew(SBox).Padding(10.0f)
+		SNew(SBox).Padding(10.0f).Padding(10.0f).HeightOverride(60.0f).WidthOverride(120.0f).HAlign(HAlign_Center).VAlign(VAlign_Top)
 		[
-			SNew(SButton).ButtonColorAndOpacity((FLinearColor(0.2f, 0.9f, 0.2f, 1.0f)))
+			SNew(SButton)
+			.ButtonColorAndOpacity((FLinearColor(0.2f, 0.9f, 0.2f, 1.0f)))
 			.Text(FText::FromString("Add element"))
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Center)
@@ -91,13 +95,14 @@ void SDictionaryCreatorMainWindow::AddElementButton(TSharedRef<SVerticalBox> Ver
 		]
 	];
 }
-void SDictionaryCreatorMainWindow::AddSaveButton(TSharedRef<SVerticalBox> VerticalBox)
+void SDictionaryCreatorMainWindow::ConstructSaveButton(TSharedRef<SVerticalBox> VerticalBox)
 {
-	VerticalBox->AddSlot().AutoHeight()
+	VerticalBox->AddSlot().VAlign(VAlign_Bottom)
 	[
-		SNew(SBox).Padding(10.0f)
+		SNew(SBox).Padding(10.0f).HeightOverride(80.0f).WidthOverride(160.0f)
 		[
-			SNew(SButton).ButtonColorAndOpacity((FLinearColor(0.9f, 0.6f, 0.1f, 1.0f)))
+			SNew(SButton)
+			.ButtonColorAndOpacity((FLinearColor(0.9f, 0.6f, 0.1f, 1.0f)))
 			.Text(FText::FromString("Save Data"))
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Center)
@@ -105,7 +110,7 @@ void SDictionaryCreatorMainWindow::AddSaveButton(TSharedRef<SVerticalBox> Vertic
 		]
 	];
 }
-void SDictionaryCreatorMainWindow::AddSection(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel, const FString& LabelText)
+void SDictionaryCreatorMainWindow::ConstructSection(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel, const FString& LabelText)
 {
 	VerticalBox->AddSlot().AutoHeight()
 	[
@@ -129,13 +134,17 @@ FReply SDictionaryCreatorMainWindow::OnSaveButtonClicked()
 FReply SDictionaryCreatorMainWindow::AddNewData(TSharedRef<SGridPanel> GridPanel)
 {
 	DataArray.Emplace("","");
-	AddDataRow(GridPanel, DataArray.Num() - 1);
+	ConstructDataRow(GridPanel, DataArray.Num() - 1);
 	return FReply::Handled();
 }
 
-FReply SDictionaryCreatorMainWindow::RemoveData(uint32 Row)
+FReply SDictionaryCreatorMainWindow::RemoveData(int32 Row)
 {
-	DataArray.Remove(DataArray[Row]);
+	if (Row >= 0 && Row < DataArray.Num())
+	{
+		DataArray.Remove(DataArray[Row]);
+	}
+	
 	//rebuild widget
 	return FReply::Handled();
 }
