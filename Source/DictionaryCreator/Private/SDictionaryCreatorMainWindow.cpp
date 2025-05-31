@@ -40,7 +40,7 @@ void SDictionaryCreatorMainWindow::ConstructDataRow(TSharedRef<SGridPanel> GridP
 		[
 			SNew(SEditableTextBox)
 			.HintText(FText::FromString("Key"))
-			.MinDesiredWidth(80.0f)
+			.MinDesiredWidth(90.0f)
 			.OnTextCommitted_Lambda([this, Row](const FText& NewText, ETextCommit::Type CommitType)
 			{
 				this->UpdateDataArrayKey(Row, NewText);
@@ -52,7 +52,7 @@ void SDictionaryCreatorMainWindow::ConstructDataRow(TSharedRef<SGridPanel> GridP
 		[
 			SNew(SEditableTextBox)
 			.HintText(FText::FromString("Value"))
-			.MinDesiredWidth(200.0f)
+			.MinDesiredWidth(300.0f)
 			.OnTextCommitted_Lambda([this, Row](const FText& NewText, ETextCommit::Type CommitType)
 			{
 				this->UpdateDataArrayValue(Row, NewText);
@@ -81,7 +81,7 @@ void SDictionaryCreatorMainWindow::ConstructAddNewElementButton(TSharedRef<SVert
 {
 	VerticalBox->AddSlot().AutoHeight()
 	[
-		SNew(SBox).Padding(10.0f).Padding(10.0f).HeightOverride(60.0f).WidthOverride(120.0f).HAlign(HAlign_Center).VAlign(VAlign_Top)
+		SNew(SBox).Padding(10.0f).Padding(10.0f).HeightOverride(40.0f).WidthOverride(100.0f).HAlign(HAlign_Center).VAlign(VAlign_Top)
 		[
 			SNew(SButton)
 			.ButtonColorAndOpacity((FLinearColor(0.2f, 0.9f, 0.2f, 1.0f)))
@@ -99,7 +99,7 @@ void SDictionaryCreatorMainWindow::ConstructSaveButton(TSharedRef<SVerticalBox> 
 {
 	VerticalBox->AddSlot().VAlign(VAlign_Bottom)
 	[
-		SNew(SBox).Padding(10.0f).HeightOverride(80.0f).WidthOverride(160.0f)
+		SNew(SBox).Padding(10.0f).HeightOverride(60.0f).WidthOverride(140.0f).VAlign(VAlign_Bottom).HAlign(HAlign_Center)
 		[
 			SNew(SButton)
 			.ButtonColorAndOpacity((FLinearColor(0.9f, 0.6f, 0.1f, 1.0f)))
