@@ -14,13 +14,13 @@ public:
 	void Construct(const FArguments& InArgs);
 	//virtual void RebuildW
 	
-	void ConstructDataRow(TSharedRef<SGridPanel> GridPanel, uint32 Row);
+	void ConstructDataRow(TSharedRef<SGridPanel> GridPanel, int32 Row, const FText& InTextKey = FText::FromString(""), const FText& InTextValue = FText::FromString(""));
 	void ConstructAddNewElementButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel);
 	void ConstructSaveButton(TSharedRef<SVerticalBox> VerticalBox);
 	void ConstructSection(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel, const FString& LabelText);
 
 	FReply AddNewData(TSharedRef<SGridPanel> GridPanel);
-	FReply RemoveData(int32 Row);
+	FReply RemoveData(TSharedRef<SGridPanel> GridPanel, int32 Row);
 	FReply OnSaveButtonClicked();
 
 	

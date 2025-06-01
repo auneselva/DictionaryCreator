@@ -5,6 +5,8 @@
 #include "DictionaryCreatorUtils.h"
 #include "SlateOptMacros.h"
 
+DEFINE_LOG_CATEGORY_STATIC(LogSDictionaryCreatorMainWindow, Log, All);
+
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 
@@ -19,7 +21,7 @@ void SDictionaryCreatorMainWindow::Construct(const FArguments& InArgs)
 	if (DataArray.IsEmpty())
 		DataArray.Emplace("","");
 	for (int i = 0; i < DataArray.Num(); i++)
-		ConstructDataRow(GridPanel, i);
+		ConstructDataRow(GridPanel, i, FText::FromString(DataArray[i].Key),FText::FromString(DataArray[i].Value));
 	ConstructSection(VerticalBoxMain, GridPanel, TEXT("Data to save:"));
 	ConstructAddNewElementButton(VerticalBoxMain, GridPanel);
 	ConstructSaveButton(VerticalBoxMain);
@@ -32,14 +34,20 @@ void SDictionaryCreatorMainWindow::Construct(const FArguments& InArgs)
 	
 }
 
-void SDictionaryCreatorMainWindow::ConstructDataRow(TSharedRef<SGridPanel> GridPanel, uint32 Row)
+void SDictionaryCreatorMainWindow::ConstructDataRow(TSharedRef<SGridPanel> GridPanel, int32 Row, const FText& InTextKey, const FText& InTextValue)
 {
+	//if (Row < 0 || Row > DataArray.Num() - 1)
+	//	FText KeyDefaultText = FText::FromString(if DataArray[Row].Key)
+	
+	//if ()
+	
 	GridPanel->AddSlot(0, Row)
 	.Padding(3)
 	.HAlign(HAlign_Left)
 		[
 			SNew(SEditableTextBox)
 			.HintText(FText::FromString("Key"))
+			.Text(InTextKey)
 			.MinDesiredWidth(90.0f)
 			.OnTextCommitted_Lambda([this, Row](const FText& NewText, ETextCommit::Type CommitType)
 			{
@@ -52,6 +60,7 @@ void SDictionaryCreatorMainWindow::ConstructDataRow(TSharedRef<SGridPanel> GridP
 		[
 			SNew(SEditableTextBox)
 			.HintText(FText::FromString("Value"))
+			.Text(InTextValue)
 			.MinDesiredWidth(300.0f)
 			.OnTextCommitted_Lambda([this, Row](const FText& NewText, ETextCommit::Type CommitType)
 			{
@@ -70,9 +79,9 @@ void SDictionaryCreatorMainWindow::ConstructDataRow(TSharedRef<SGridPanel> GridP
 			SNew(SButton)
 			.ButtonColorAndOpacity((FLinearColor(0.6f, 0.6, 0.6f, 1.0f)))
 			.Text(FText::FromString("-"))
-			.OnClicked_Lambda([this, Row]() ->FReply
+			.OnClicked_Lambda([this, GridPanel, Row]() ->FReply
 			{
-				return this->RemoveData(Row);
+				return this->RemoveData(GridPanel, Row);
 			})
 		]
 	];
@@ -138,14 +147,21 @@ FReply SDictionaryCreatorMainWindow::AddNewData(TSharedRef<SGridPanel> GridPanel
 	return FReply::Handled();
 }
 
-FReply SDictionaryCreatorMainWindow::RemoveData(int32 Row)
+FReply SDictionaryCreatorMainWindow::RemoveData(TSharedRef<SGridPanel> GridPanel, int32 Row)
 {
-	if (Row >= 0 && Row < DataArray.Num())
+	if (Row < 0 || Row > DataArray.Num() - 1)
 	{
-		DataArray.Remove(DataArray[Row]);
+		UE_LOG(LogSDictionaryCreatorMainWindow, Warning, TEXT("No row %d in the Panel to remove. Something went wrong."), Row);
+		return FReply::Unhandled();
 	}
+
+	DataArray.RemoveAt(Row);
+	GridPanel->ClearChildren();
+	if (DataArray.IsEmpty())
+		DataArray.Emplace("","");
+	for (int i = 0; i < DataArray.Num(); i++)
+		ConstructDataRow(GridPanel, i, FText::FromString(DataArray[i].Key),FText::FromString(DataArray[i].Value));
 	
-	//rebuild widget
 	return FReply::Handled();
 }
 
