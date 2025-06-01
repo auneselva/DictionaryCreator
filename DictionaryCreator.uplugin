@@ -3,7 +3,7 @@
 	"Version": 1,
 	"VersionName": "1.0",
 	"FriendlyName": "DictionaryCreator",
-	"Description": "JSON dictionary creator",
+	"Description": "JSON dictionary creator. Launch it by clicking Plugins->Dictionary Creator tab in the top bar in the Unreal Editor.",
 	"Category": "Other",
 	"CreatedBy": "Agnieszka Konopka",
 	"CreatedByURL": "",

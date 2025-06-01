@@ -30,17 +30,11 @@ void SDictionaryCreatorMainWindow::Construct(const FArguments& InArgs)
 	[
 		VerticalBoxMain
 	];
-
 	
 }
 
 void SDictionaryCreatorMainWindow::ConstructDataRow(TSharedRef<SGridPanel> GridPanel, int32 Row, const FText& InTextKey, const FText& InTextValue)
 {
-	//if (Row < 0 || Row > DataArray.Num() - 1)
-	//	FText KeyDefaultText = FText::FromString(if DataArray[Row].Key)
-	
-	//if ()
-	
 	GridPanel->AddSlot(0, Row)
 	.Padding(3)
 	.HAlign(HAlign_Left)

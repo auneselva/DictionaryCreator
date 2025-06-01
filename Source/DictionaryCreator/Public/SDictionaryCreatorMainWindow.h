@@ -27,7 +27,7 @@ public:
 	void UpdateDataArrayKey(int32 Index, const FText& NewKey);
 	void UpdateDataArrayValue(int32 Index, const FText& NewValue);
 
-private:
+protected:
 	
 	TArray<TPair<FString, FString>> DataArray;
 	const static FString MainJSONObjectName;

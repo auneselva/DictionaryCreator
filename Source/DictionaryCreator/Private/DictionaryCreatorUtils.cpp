@@ -1,3 +1,5 @@
+// by Agnieszka Konopka, May 2025.
+
 #include "DictionaryCreatorUtils.h"
 #include "Policies/CondensedJsonPrintPolicy.h"
 #include "Serialization/JsonSerializer.h"
@@ -57,6 +59,7 @@ TMap<FString, FString> DictionaryCreatorUtils::FilterData(TArray<TPair<FString, 
 	}
 	return FilteredData;
 }
+
 bool DictionaryCreatorUtils::SerializeToJson(const FString& DataName, TMap<FString, FString>& InDataToSerialize, FString& OutSerializedData)
 {
 	TSharedRef<FJsonObject> JsonObject = MakeShared<FJsonObject>();

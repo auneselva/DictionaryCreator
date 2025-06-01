@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// by Agnieszka Konopka, May 2025.
 
 #pragma once
 
