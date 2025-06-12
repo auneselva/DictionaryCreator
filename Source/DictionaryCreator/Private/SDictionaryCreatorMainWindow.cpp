@@ -15,7 +15,10 @@ const FString SDictionaryCreatorMainWindow::MainJSONObjectName = TEXT("Dictionar
 void SDictionaryCreatorMainWindow::Construct(const FArguments& InArgs)
 {
 	TSharedRef<SVerticalBox> VerticalBoxMain = SNew(SVerticalBox);
-	TSharedRef<SGridPanel> GridPanel = SNew(SGridPanel).FillColumn(0, 0.3f).FillColumn(1, 0.6f).FillColumn(2, 0.1f);
+	TSharedRef<SGridPanel> GridPanel = SNew(SGridPanel)
+		.FillColumn(0, 0.3f)
+		.FillColumn(1, 0.6f)
+		.FillColumn(2, 0.1f);
 	
 	// add one empty row if there are none yet
 	if (DataArray.IsEmpty())
@@ -36,8 +39,8 @@ void SDictionaryCreatorMainWindow::Construct(const FArguments& InArgs)
 void SDictionaryCreatorMainWindow::ConstructDataRow(TSharedRef<SGridPanel> GridPanel, int32 Row, const FText& InTextKey, const FText& InTextValue)
 {
 	GridPanel->AddSlot(0, Row)
-	.Padding(3)
-	.HAlign(HAlign_Left)
+		.Padding(3)
+		.HAlign(HAlign_Left)
 		[
 			SNew(SEditableTextBox)
 			.HintText(FText::FromString("Key"))
@@ -62,32 +65,39 @@ void SDictionaryCreatorMainWindow::ConstructDataRow(TSharedRef<SGridPanel> GridP
 			})
 		];
 	GridPanel->AddSlot(2, Row)
-	.Padding(3)
-	.HAlign(HAlign_Right)
-	[
-		SNew(SBox).Padding(2.0f)
+		.Padding(3)
+		.HAlign(HAlign_Right)
+		[
+			SNew(SBox)
+			.Padding(2.0f)
 			.HAlign(HAlign_Left)
 			.VAlign(VAlign_Center)
 			.WidthOverride(40.0f)
-		[
-			SNew(SButton)
-			.ButtonColorAndOpacity((FLinearColor(0.6f, 0.6, 0.6f, 1.0f)))
-			.Text(FText::FromString("-"))
-			.OnClicked_Lambda([this, GridPanel, Row]() ->FReply
-			{
-				return this->RemoveData(GridPanel, Row);
-			})
-		]
+			[
+				SNew(SButton)
+				.ButtonColorAndOpacity(FLinearColor(0.6f, 0.6, 0.6f, 1.0f))
+				.Text(FText::FromString("-"))
+				.OnClicked_Lambda([this, GridPanel, Row]() ->FReply
+				{
+					return this->RemoveData(GridPanel, Row);
+				})
+			]
 	];
 }
 void SDictionaryCreatorMainWindow::ConstructAddNewElementButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel)
 {
-	VerticalBox->AddSlot().AutoHeight()
+	VerticalBox->AddSlot()
+	.AutoHeight()
 	[
-		SNew(SBox).Padding(10.0f).Padding(10.0f).HeightOverride(40.0f).WidthOverride(100.0f).HAlign(HAlign_Center).VAlign(VAlign_Top)
+		SNew(SBox)
+		.Padding(10.0f)
+		.HeightOverride(40.0f)
+		.WidthOverride(100.0f)
+		.HAlign(HAlign_Center)
+		.VAlign(VAlign_Top)
 		[
 			SNew(SButton)
-			.ButtonColorAndOpacity((FLinearColor(0.2f, 0.9f, 0.2f, 1.0f)))
+			.ButtonColorAndOpacity(FLinearColor(0.2f, 0.9f, 0.2f, 1.0f))
 			.Text(FText::FromString("Add element"))
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Center)
@@ -100,12 +110,18 @@ void SDictionaryCreatorMainWindow::ConstructAddNewElementButton(TSharedRef<SVert
 }
 void SDictionaryCreatorMainWindow::ConstructSaveButton(TSharedRef<SVerticalBox> VerticalBox)
 {
-	VerticalBox->AddSlot().VAlign(VAlign_Bottom)
+	VerticalBox->AddSlot()
+	.VAlign(VAlign_Bottom)
 	[
-		SNew(SBox).Padding(10.0f).HeightOverride(60.0f).WidthOverride(140.0f).VAlign(VAlign_Bottom).HAlign(HAlign_Center)
+		SNew(SBox)
+		.Padding(10.0f)
+		.HeightOverride(60.0f)
+		.WidthOverride(140.0f)
+		.VAlign(VAlign_Bottom)
+		.HAlign(HAlign_Center)
 		[
 			SNew(SButton)
-			.ButtonColorAndOpacity((FLinearColor(0.9f, 0.6f, 0.1f, 1.0f)))
+			.ButtonColorAndOpacity(FLinearColor(0.9f, 0.6f, 0.1f, 1.0f))
 			.Text(FText::FromString("Save Data"))
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Center)
@@ -115,7 +131,8 @@ void SDictionaryCreatorMainWindow::ConstructSaveButton(TSharedRef<SVerticalBox> 
 }
 void SDictionaryCreatorMainWindow::ConstructSection(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel, const FString& LabelText)
 {
-	VerticalBox->AddSlot().AutoHeight()
+	VerticalBox->AddSlot()
+	.AutoHeight()
 	[
 		SNew(SExpandableArea)
 		.AreaTitle(FText::FromString(LabelText))
