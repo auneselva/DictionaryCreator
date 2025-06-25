@@ -1,6 +1,8 @@
 // by Agnieszka Konopka, May 2025.
 
 #include "DictionaryCreatorUtils.h"
+#include "SDictionaryCreatorMainWindow.h"
+
 #include "Policies/CondensedJsonPrintPolicy.h"
 #include "Serialization/JsonSerializer.h"
 #include "Serialization/JsonWriter.h"
@@ -14,7 +16,7 @@ DEFINE_LOG_CATEGORY_STATIC(LogDictionaryCreatorUtils, Log, All);
 const FString DictionaryCreatorUtils::ENTRY_KEY = TEXT("Key");
 const FString DictionaryCreatorUtils::ENTRY_VALUE = TEXT("Value");
 
-bool DictionaryCreatorUtils::ExportData(const FString& DataName, TArray<TPair<FString, FString>>& DataToExport)
+bool DictionaryCreatorUtils::ExportData(const FString& DataName, TArray<TSharedPtr<FDictionaryElement>>& DataToExport)
 {
 
 	TMap<FString, FString> FilteredData = FilterData(DataToExport); 
@@ -47,15 +49,15 @@ bool DictionaryCreatorUtils::ExportData(const FString& DataName, TArray<TPair<FS
 }
 
 
-TMap<FString, FString> DictionaryCreatorUtils::FilterData(TArray<TPair<FString, FString>>& InDataToFilter)
+TMap<FString, FString> DictionaryCreatorUtils::FilterData(TArray<TSharedPtr<FDictionaryElement>>& InDataToFilter)
 {
 	TMap<FString, FString> FilteredData;
-	for (TPair<FString, FString> &Pair : InDataToFilter)
+	for (const TSharedPtr<FDictionaryElement> &Pair : InDataToFilter)
 	{
-		if (Pair.Key.IsEmpty())
+		if (!Pair.IsValid() || Pair->Key.IsEmpty())
 			continue;
 
-		FilteredData.Emplace(Pair.Key, Pair.Value);
+		FilteredData.Emplace(Pair->Key, Pair->Value);
 	}
 	return FilteredData;
 }

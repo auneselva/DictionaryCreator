@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "SDictionaryListView.h"
 #include "Widgets/SCompoundWidget.h"
 
 class DICTIONARYCREATOR_API SDictionaryCreatorMainWindow : public SCompoundWidget
@@ -12,23 +13,15 @@ public:
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
-	//virtual void RebuildW
 	
-	void ConstructDataRow(TSharedRef<SGridPanel> GridPanel, int32 Row, const FText& InTextKey = FText::FromString(""), const FText& InTextValue = FText::FromString(""));
-	void ConstructAddNewElementButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel);
-	void ConstructSaveButton(TSharedRef<SVerticalBox> VerticalBox);
-	void ConstructSection(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SGridPanel> GridPanel, const FString& LabelText);
+	void ConstructAddNewElementButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> DictionaryListView);
+	void ConstructSaveButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> DictionaryListView);
+	void ConstructSection(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> ListView, const FString& LabelText);
 
-	FReply AddNewData(TSharedRef<SGridPanel> GridPanel);
-	FReply RemoveData(TSharedRef<SGridPanel> GridPanel, int32 Row);
-	FReply OnSaveButtonClicked();
-
-	
-	void UpdateDataArrayKey(int32 Index, const FText& NewKey);
-	void UpdateDataArrayValue(int32 Index, const FText& NewValue);
-
+	FReply OnSaveButtonClicked(TArray<TSharedPtr<FDictionaryElement>> Data);
 protected:
 	
 	TArray<TPair<FString, FString>> DataArray;
+	TArray<TSharedPtr<FDictionaryElement>> ListViewDataArray;
 	const static FString MainJSONObjectName;
 };

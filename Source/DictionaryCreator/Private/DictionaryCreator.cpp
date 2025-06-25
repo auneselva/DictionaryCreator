@@ -33,11 +33,11 @@ void FDictionaryCreatorModule::RegisterMenu()
 		Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu");
 		FToolMenuSection& Section = Menu->FindOrAddSection("Plugins");
 		FToolMenuEntry& Entry = Section.AddSubMenu(
-		"Plugins",
-		LOCTEXT("AddMenu_Plugins", "Plugins"),
-		LOCTEXT("AddMenu_PluginsToolTip", "Plugins"),
-		FNewToolMenuChoice()
-		);
+			"Plugins",
+			LOCTEXT("AddMenu_Plugins", "Plugins"),
+			LOCTEXT("AddMenu_PluginsToolTip", "Plugins"),
+			FNewToolMenuChoice()
+			);
 		Entry.InsertPosition = FToolMenuInsert("Help", EToolMenuInsertType::After);
 		Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Plugins");
 	}

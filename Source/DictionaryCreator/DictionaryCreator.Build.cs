@@ -39,6 +39,7 @@ public class DictionaryCreator : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
+				"InputCore",
 				"ToolMenus",
 				"DesktopPlatform"
 				// ... add private dependencies that you statically link with here ...	
