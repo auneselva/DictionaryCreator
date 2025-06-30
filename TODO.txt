@@ -1,0 +1,5 @@
+1. Bottom-right corner notification - add a hyperlink to the path where the file with JSON data got saved.
+2. Add a possibility to quickly add significant number of rows e.g. hundreds.
+3. Add a description at the top that it stores data with unique keys - duplicates are skipped.
+4. Nest the default save path into an additional subdirectory.
+5. Remove the gray bar from the top.

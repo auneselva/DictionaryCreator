@@ -72,7 +72,7 @@ void SDictionaryCreatorMainWindow::ConstructSaveButton(TSharedRef<SVerticalBox> 
 			.Text(FText::FromString("Save Data"))
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Center)
-			.OnClicked(this, &SDictionaryCreatorMainWindow::OnSaveButtonClicked, DictionaryListView->Items)
+			.OnClicked(this, &SDictionaryCreatorMainWindow::OnSaveButtonClicked, &DictionaryListView->Items)
 		]
 	];
 }
@@ -92,9 +92,9 @@ void SDictionaryCreatorMainWindow::ConstructSection(TSharedRef<SVerticalBox> Ver
 	];
 }
 
-FReply SDictionaryCreatorMainWindow::OnSaveButtonClicked(TArray<TSharedPtr<FDictionaryElement>> Data)
+FReply SDictionaryCreatorMainWindow::OnSaveButtonClicked(TArray<TSharedPtr<FDictionaryElement>>* Data)
 {
-	DictionaryCreatorUtils::ExportData(MainJSONObjectName,Data);
+	DictionaryCreatorUtils::ExportData(MainJSONObjectName, *Data);
 	return FReply::Handled();
 }
 

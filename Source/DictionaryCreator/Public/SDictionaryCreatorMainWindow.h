@@ -18,7 +18,7 @@ public:
 	void ConstructSaveButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> DictionaryListView);
 	void ConstructSection(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> ListView, const FString& LabelText);
 
-	FReply OnSaveButtonClicked(TArray<TSharedPtr<FDictionaryElement>> Data);
+	FReply OnSaveButtonClicked(TArray<TSharedPtr<FDictionaryElement>>* Data);
 protected:
 	
 	TArray<TPair<FString, FString>> DataArray;

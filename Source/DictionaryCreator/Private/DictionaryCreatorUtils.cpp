@@ -16,7 +16,7 @@ DEFINE_LOG_CATEGORY_STATIC(LogDictionaryCreatorUtils, Log, All);
 const FString DictionaryCreatorUtils::ENTRY_KEY = TEXT("Key");
 const FString DictionaryCreatorUtils::ENTRY_VALUE = TEXT("Value");
 
-bool DictionaryCreatorUtils::ExportData(const FString& DataName, TArray<TSharedPtr<FDictionaryElement>>& DataToExport)
+bool DictionaryCreatorUtils::ExportData(const FString& DataName, const TArray<TSharedPtr<FDictionaryElement>>& DataToExport)
 {
 
 	TMap<FString, FString> FilteredData = FilterData(DataToExport); 
@@ -49,7 +49,7 @@ bool DictionaryCreatorUtils::ExportData(const FString& DataName, TArray<TSharedP
 }
 
 
-TMap<FString, FString> DictionaryCreatorUtils::FilterData(TArray<TSharedPtr<FDictionaryElement>>& InDataToFilter)
+TMap<FString, FString> DictionaryCreatorUtils::FilterData(const TArray<TSharedPtr<FDictionaryElement>>& InDataToFilter)
 {
 	TMap<FString, FString> FilteredData;
 	for (const TSharedPtr<FDictionaryElement> &Pair : InDataToFilter)
@@ -62,7 +62,7 @@ TMap<FString, FString> DictionaryCreatorUtils::FilterData(TArray<TSharedPtr<FDic
 	return FilteredData;
 }
 
-bool DictionaryCreatorUtils::SerializeToJson(const FString& DataName, TMap<FString, FString>& InDataToSerialize, FString& OutSerializedData)
+bool DictionaryCreatorUtils::SerializeToJson(const FString& DataName, const TMap<FString, FString>& InDataToSerialize, FString& OutSerializedData)
 {
 	TSharedRef<FJsonObject> JsonObject = MakeShared<FJsonObject>();
 	TArray<TSharedPtr<FJsonValue>> JsonValues;

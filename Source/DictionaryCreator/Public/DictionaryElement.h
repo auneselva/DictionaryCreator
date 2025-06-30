@@ -5,13 +5,11 @@ USTRUCT(BlueprintType)
 struct FDictionaryElement
 {
 	GENERATED_BODY()
-
-	int Index;
+	
 	FString Key;
 	FString Value;
 	
-	FDictionaryElement(int Index = 0, FString Key = TEXT(""), FString Value = TEXT("") ):
-	Index(Index),
+	FDictionaryElement(FString Key = TEXT(""), FString Value = TEXT("") ):
 	Key(Key),
 	Value(Value) {}
 	
