@@ -44,10 +44,9 @@ bool DictionaryCreatorUtils::ExportData(const FString& DataName, const TArray<TS
 		return false;
 	}
 
-	ShowNotification(FText::FromString(FString::Format(TEXT("Successfully saved Json data to {0}!"), {*ResultFilename})));
+	ShowNotification(FText::FromString(TEXT("Successfully saved Json data to ")), FText::FromString(*ResultFilename));
 	return true;
 }
-
 
 TMap<FString, FString> DictionaryCreatorUtils::FilterData(const TArray<TSharedPtr<FDictionaryElement>>& InDataToFilter)
 {
@@ -112,12 +111,18 @@ bool DictionaryCreatorUtils::SaveToFile(const FString& DataJsonString, FString& 
 	}
 	return false;
 }
-void DictionaryCreatorUtils::ShowNotification(const FText& Text, float Duration)
+
+void DictionaryCreatorUtils::ShowNotification(const FText& InfoText, const FText& HyperLinkText, float Duration)
 {
-	Async(EAsyncExecution::TaskGraphMainThread, [Text, Duration]()
+	Async(EAsyncExecution::TaskGraphMainThread, [InfoText, HyperLinkText, Duration]()
 	{
-		FNotificationInfo Info(Text);
+		FNotificationInfo Info(FText::Format(InfoText, HyperLinkText));
 		Info.ExpireDuration = Duration;
+		if (!HyperLinkText.IsEmpty())
+		{
+			Info.HyperlinkText = HyperLinkText;
+			Info.Hyperlink = FSimpleDelegate::CreateLambda([HyperLinkText]() { FPlatformProcess::ExploreFolder(*HyperLinkText.ToString()); });
+		}
 		FSlateNotificationManager::Get().AddNotification(Info);
 	});
 }
