@@ -1,4 +1,4 @@
-// by Agnieszka Konopka, May 2025.
+// Copyright https://github.com/auneselva
 
 #include "DictionaryCreatorUtils.h"
 #include "SDictionaryCreatorMainWindow.h"
@@ -44,10 +44,9 @@ bool DictionaryCreatorUtils::ExportData(const FString& DataName, const TArray<TS
 		return false;
 	}
 
-	ShowNotification(FText::FromString(FString::Format(TEXT("Successfully saved Json data to {0}!"), {*ResultFilename})));
+	ShowNotification(FText::FromString(TEXT("Successfully saved Json data to ")), FText::FromString(*ResultFilename));
 	return true;
 }
-
 
 TMap<FString, FString> DictionaryCreatorUtils::FilterData(const TArray<TSharedPtr<FDictionaryElement>>& InDataToFilter)
 {
@@ -79,19 +78,26 @@ bool DictionaryCreatorUtils::SerializeToJson(const FString& DataName, const TMap
 	return FJsonSerializer::Serialize(JsonObject, Writer); 
 	
 }
+
 bool DictionaryCreatorUtils::SaveToFile(const FString& DataJsonString, FString& OutFilename)
 {
 	const FString FileTypes = TEXT("JSON Files (*.json)|*.json");
 	const FString DefaultFilename = TEXT("Dictionary_");
 	TArray<FString> OutSaveFileNames;
-
-	IDesktopPlatform* DesktopPlatform = FDesktopPlatformModule::Get();
 	const void* ParentWindowWindowHandle = FSlateApplication::Get().FindBestParentWindowHandleForDialogs(nullptr);
-
+	IPlatformFile& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+	
+	const FString DefaultOutputDirectory = FPaths::Combine(*FPaths::ProjectSavedDir(), TEXT("DictionaryCreator"));
+	if (!PlatformFile.DirectoryExists(*DefaultOutputDirectory))
+	{
+		PlatformFile.CreateDirectoryTree(*DefaultOutputDirectory);
+	}
+	
+	IDesktopPlatform* DesktopPlatform = FDesktopPlatformModule::Get();
 	const bool bFileSelected = DesktopPlatform->SaveFileDialog(
 		ParentWindowWindowHandle,
 		TEXT("Save file"),
-		FPaths::ProjectSavedDir(),
+		DefaultOutputDirectory,
 		DefaultFilename,
 		FileTypes,
 		EFileDialogFlags::None,
@@ -104,12 +110,18 @@ bool DictionaryCreatorUtils::SaveToFile(const FString& DataJsonString, FString& 
 	}
 	return false;
 }
-void DictionaryCreatorUtils::ShowNotification(const FText& Text, float Duration)
+
+void DictionaryCreatorUtils::ShowNotification(const FText& InfoText, const FText& HyperLinkText, float Duration)
 {
-	Async(EAsyncExecution::TaskGraphMainThread, [Text, Duration]()
+	Async(EAsyncExecution::TaskGraphMainThread, [InfoText, HyperLinkText, Duration]()
 	{
-		FNotificationInfo Info(Text);
+		FNotificationInfo Info(FText::Format(InfoText, HyperLinkText));
 		Info.ExpireDuration = Duration;
+		if (!HyperLinkText.IsEmpty())
+		{
+			Info.HyperlinkText = HyperLinkText;
+			Info.Hyperlink = FSimpleDelegate::CreateLambda([HyperLinkText]() { FPlatformProcess::ExploreFolder(*HyperLinkText.ToString()); });
+		}
 		FSlateNotificationManager::Get().AddNotification(Info);
 	});
 }

@@ -1,3 +1,5 @@
+// Copyright https://github.com/auneselva
+
 #pragma once
 #include "DictionaryElement.generated.h"
 

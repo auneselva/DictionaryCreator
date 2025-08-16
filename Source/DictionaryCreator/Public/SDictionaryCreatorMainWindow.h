@@ -1,4 +1,4 @@
-// by Agnieszka Konopka, May 2025.
+// Copyright https://github.com/auneselva
 
 #pragma once
 
@@ -14,14 +14,14 @@ public:
 
 	void Construct(const FArguments& InArgs);
 	
-	void ConstructAddNewElementButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> DictionaryListView);
-	void ConstructSaveButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> DictionaryListView);
-	void ConstructSection(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> ListView, const FString& LabelText);
-
-	FReply OnSaveButtonClicked(TArray<TSharedPtr<FDictionaryElement>>* Data);
 protected:
 	
-	TArray<TPair<FString, FString>> DataArray;
-	TArray<TSharedPtr<FDictionaryElement>> ListViewDataArray;
 	const static FString MainJSONObjectName;
+	
+	void ConstructAddNewElementButtons(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> DictionaryListView) const;
+	void ConstructSaveButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> DictionaryListView) const;
+	void ConstructSection(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> ListView, const FString& LabelText) const;
+	FReply OnSaveButtonClicked(TArray<TSharedPtr<FDictionaryElement>>* Data) const;
+
+	void ConstructNewRow(TSharedRef<SDictionaryListView> DictionaryListView, uint32 nRows) const;
 };

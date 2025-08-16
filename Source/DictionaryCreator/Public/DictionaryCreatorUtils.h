@@ -1,4 +1,4 @@
-// by Agnieszka Konopka, May 2025.
+// Copyright https://github.com/auneselva
 
 #pragma once
 
@@ -18,7 +18,7 @@ public:
 	static TMap<FString, FString> FilterData(const TArray<TSharedPtr<FDictionaryElement>>& InDataToFilter);
 	static bool SerializeToJson(const FString& DataName, const TMap<FString, FString>& InDataToSerialize, FString& OutSerializedData);
 	static bool SaveToFile(const FString& DataJsonString,  FString& OutFilename);
-	static void ShowNotification(const FText& Text, float Duration = 8.0f);
+	static void ShowNotification(const FText& Text, const FText& HyperLinkText = FText::GetEmpty(), float Duration = 8.0f);
 	
 protected:
 	static const FString ENTRY_KEY;
