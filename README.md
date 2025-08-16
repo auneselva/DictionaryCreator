@@ -9,4 +9,4 @@ It should open up a window in which you can create a dictionary of Key-Values pa
 
 ![obraz](https://github.com/user-attachments/assets/20793a7d-e874-4a99-9777-f5f7fd62f7f7)
 
-Compatible with UE 5.5 and higher.
+Compatible with UE 5.5 and 5.6.
