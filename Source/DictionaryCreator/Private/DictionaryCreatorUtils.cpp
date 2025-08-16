@@ -78,23 +78,22 @@ bool DictionaryCreatorUtils::SerializeToJson(const FString& DataName, const TMap
 	return FJsonSerializer::Serialize(JsonObject, Writer); 
 	
 }
+
 bool DictionaryCreatorUtils::SaveToFile(const FString& DataJsonString, FString& OutFilename)
 {
 	const FString FileTypes = TEXT("JSON Files (*.json)|*.json");
 	const FString DefaultFilename = TEXT("Dictionary_");
-	const FString DefaultOutputDirectory = FPaths::Combine(*FPaths::ProjectSavedDir(), TEXT("DictionaryCreator"));
 	TArray<FString> OutSaveFileNames;
-
-	IDesktopPlatform* DesktopPlatform = FDesktopPlatformModule::Get();
 	const void* ParentWindowWindowHandle = FSlateApplication::Get().FindBestParentWindowHandleForDialogs(nullptr);
-
-	
 	IPlatformFile& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+	
+	const FString DefaultOutputDirectory = FPaths::Combine(*FPaths::ProjectSavedDir(), TEXT("DictionaryCreator"));
 	if (!PlatformFile.DirectoryExists(*DefaultOutputDirectory))
 	{
 		PlatformFile.CreateDirectoryTree(*DefaultOutputDirectory);
 	}
 	
+	IDesktopPlatform* DesktopPlatform = FDesktopPlatformModule::Get();
 	const bool bFileSelected = DesktopPlatform->SaveFileDialog(
 		ParentWindowWindowHandle,
 		TEXT("Save file"),
