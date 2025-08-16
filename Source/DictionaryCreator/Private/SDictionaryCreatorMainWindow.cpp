@@ -18,7 +18,7 @@ void SDictionaryCreatorMainWindow::Construct(const FArguments& InArgs)
 	
 	TSharedRef<SDictionaryListView> DictionaryListView = SNew(SDictionaryListView).Items({MakeShared<FDictionaryElement>()});
 	ConstructSection(VerticalBoxMain, DictionaryListView, TEXT("Data to save:"));
-	ConstructAddNewElementButton(VerticalBoxMain, DictionaryListView);
+	ConstructAddNewElementButtons(VerticalBoxMain, DictionaryListView);
 	ConstructSaveButton(VerticalBoxMain, DictionaryListView);
 	
 	ChildSlot
@@ -28,15 +28,14 @@ void SDictionaryCreatorMainWindow::Construct(const FArguments& InArgs)
 	
 }
 
-void SDictionaryCreatorMainWindow::ConstructAddNewElementButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> DictionaryListView)
+void SDictionaryCreatorMainWindow::ConstructAddNewElementButtons(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> DictionaryListView) const
 {
 	VerticalBox->AddSlot()
 	.AutoHeight()
 	[
-		SNew(SBox)
+		SNew(SHorizontalBox)
+		+SHorizontalBox::Slot()
 		.Padding(10.0f)
-		.HeightOverride(40.0f)
-		.WidthOverride(100.0f)
 		.HAlign(HAlign_Center)
 		.VAlign(VAlign_Top)
 		[
@@ -45,16 +44,34 @@ void SDictionaryCreatorMainWindow::ConstructAddNewElementButton(TSharedRef<SVert
 			.Text(FText::FromString("Add element"))
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Center)
+			.DesiredSizeScale(FVector2D(1.5f,1.2f))
 			.OnClicked_Lambda([this, DictionaryListView]() ->FReply
 			{
-				DictionaryListView->Items.Add(MakeShared<FDictionaryElement>());
-				DictionaryListView->ListView->RequestListRefresh();
+				ConstructNewRow(DictionaryListView, 1);
+				return FReply::Handled();
+			})
+		]
+		+SHorizontalBox::Slot()
+		.Padding(10.0f)
+		.HAlign(HAlign_Center)
+		.VAlign(VAlign_Top)
+		[
+			SNew(SButton)
+			.ButtonColorAndOpacity(FLinearColor(0.2f, 0.9f, 0.2f, 1.0f))
+			.Text(FText::FromString("Double them!"))
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Center)
+			.DesiredSizeScale(FVector2D(1.5f,1.2f))
+			.OnClicked_Lambda([this, DictionaryListView]() ->FReply
+			{
+				ConstructNewRow(DictionaryListView, DictionaryListView->Items.Num());
 				return FReply::Handled();
 			})
 		]
 	];
 }
-void SDictionaryCreatorMainWindow::ConstructSaveButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> DictionaryListView)
+
+void SDictionaryCreatorMainWindow::ConstructSaveButton(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> DictionaryListView) const
 {
 	VerticalBox->AddSlot()
 	.VAlign(VAlign_Bottom)
@@ -72,11 +89,13 @@ void SDictionaryCreatorMainWindow::ConstructSaveButton(TSharedRef<SVerticalBox> 
 			.Text(FText::FromString("Save Data"))
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Center)
+			.DesiredSizeScale(FVector2D(1.5f,1.2f))
 			.OnClicked(this, &SDictionaryCreatorMainWindow::OnSaveButtonClicked, &DictionaryListView->Items)
 		]
 	];
 }
-void SDictionaryCreatorMainWindow::ConstructSection(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> DictionaryListView, const FString& LabelText)
+
+void SDictionaryCreatorMainWindow::ConstructSection(TSharedRef<SVerticalBox> VerticalBox, TSharedRef<SDictionaryListView> DictionaryListView, const FString& LabelText) const
 {
 	VerticalBox->AddSlot()
 	.FillHeight(0.8f)
@@ -92,10 +111,17 @@ void SDictionaryCreatorMainWindow::ConstructSection(TSharedRef<SVerticalBox> Ver
 	];
 }
 
-FReply SDictionaryCreatorMainWindow::OnSaveButtonClicked(TArray<TSharedPtr<FDictionaryElement>>* Data)
+FReply SDictionaryCreatorMainWindow::OnSaveButtonClicked(TArray<TSharedPtr<FDictionaryElement>>* Data) const
 {
 	DictionaryCreatorUtils::ExportData(MainJSONObjectName, *Data);
 	return FReply::Handled();
+}
+
+void SDictionaryCreatorMainWindow::ConstructNewRow(TSharedRef<SDictionaryListView> DictionaryListView, uint32 nRows) const
+{
+	for (uint32 i = 0; i < nRows; i++)
+		DictionaryListView->Items.Add(MakeShared<FDictionaryElement>());
+	DictionaryListView->ListView->RequestListRefresh();
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION

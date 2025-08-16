@@ -1,5 +1,6 @@
-#include "SDictionaryListView.h"
+// Copyright https://github.com/auneselva
 
+#include "SDictionaryListView.h"
 
 void SDictionaryElementRow::Construct(const FArguments& InArgs, const TSharedRef<STableViewBase>& OwnerTable)
 {
