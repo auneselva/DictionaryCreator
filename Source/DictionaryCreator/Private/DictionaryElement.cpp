@@ -1,3 +1,4 @@
+// Copyright https://github.com/auneselva
 
 #include "DictionaryElement.h"
 

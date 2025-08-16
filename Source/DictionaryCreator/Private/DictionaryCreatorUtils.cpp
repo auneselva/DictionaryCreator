@@ -1,4 +1,4 @@
-// by Agnieszka Konopka, May 2025.
+// Copyright https://github.com/auneselva
 
 #include "DictionaryCreatorUtils.h"
 #include "SDictionaryCreatorMainWindow.h"
