@@ -7,6 +7,6 @@ Launch it by clicking Plugins->Dictionary Creator tab in the top bar in the Unre
 
 It should open up a window in which you can create a dictionary of Key-Values pairs and save it to JSON file. 
 
-![obraz](https://github.com/user-attachments/assets/20793a7d-e874-4a99-9777-f5f7fd62f7f7)
+<img width="525" height="486" alt="obraz" src="https://github.com/user-attachments/assets/624214b2-44b6-4f77-a148-a428ba672484" />
 
-Compatible with UE 5.5 and 5.6.
+Compatible with UE 5.5 - 5.7
